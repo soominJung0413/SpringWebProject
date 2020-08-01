@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- mapper 태그의 namespace 속성은 프록시를 만들 인터페이스를 지정한다!! -->
+  <mapper namespace="com.soomin.mapper.TImeMapper"> 
+  	
+  	<select id="getTime2" resultType="java.lang.String">
+		SELECT sysdate FROM DUAL  	
+  	</select>
+  	
+  </mapper>
+  
+ 
