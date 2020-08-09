@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+
+         id="WebApp_ID" version="3.1">
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value><!-- contextConfigLocation 변수를 이용해서 밑의 ContextLoaderListener 를 구동시킴 -->
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class><!-- contextLoaderListener 는 해당 변수를 이용해서 설정파일을 로딩시킴 -->
+	</listener>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class><!-- 리스너 동작 후 spring-core의 객체들이 생성 된후 DispatcherServlet이 생성되며 웹관련 처리작업의 설정을 시작함!! -->
+		<init-param>
+			<param-name>throwExceptionIfNoHandlerFound</param-name>
+        	<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	
+	 <error-page>
+
+    <error-code>404</error-code>
+
+    <location>/WEB-INF/views/custom404.jsp</location>
+
+</error-page>
+</web-app>
