@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		
+		<context:property-placeholder file-encoding="utf-8" location="classpath:properties/*"/>
+		
+		<mybatis-spring:scan base-package="me.soomin.mappers"/>
+		
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		 <bean id="propertySourcesPlaceholderConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+			<property name="fileEncoding" value="UTF-8" />
+			<property name="location" value="classpath:/properties/dbcp.properties" />
+		</bean> 
+	
+		<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+			<property name="driverClassName" value="${dbcp.driver}" />
+			<property name="jdbcUrl" value="${dbcp.url}" />
+			<property name="username" value="${dbcp.user}" />
+			<property name="password" value="${dbcp.password}" />
+			<property name="minimumIdle" value="${dbcp.min}" />
+			<property name="maximumPoolSize" value="${dbcp.size}" />
+			<property name="idleTimeout" value="${dbcp.timeout}" />
+			<property name="connectionTestQuery" value="${dbcp.test}" />
+		</bean>
+		
+		<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+			<constructor-arg ref="hikariConfig" />
+		</bean>
+		
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource" />
+		</bean>
+		
+		<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+			<constructor-arg ref="sqlSessionFactory" />
+		</bean>
+		
+</beans>
