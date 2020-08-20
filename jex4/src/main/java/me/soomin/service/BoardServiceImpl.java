@@ -2,6 +2,8 @@ package me.soomin.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -12,12 +14,16 @@ import me.soomin.persistence.BoardMapper;
 @Service
 @Log4j
 @AllArgsConstructor
+@Primary
 public class BoardServiceImpl implements BoardService{
 	
+	@Autowired
 	BoardMapper boardMapper;
 	@Override
 	public void register(BoardVO boardVO) {
-		log.info("register >>>>>>>>>"+boardVO);
+		
+		log.info("register >>>>>>>>> >>>>>>>>>>"+boardVO);
+		log.info(boardMapper);
 		
 		boardMapper.insertSelectKey(boardVO);
 	}

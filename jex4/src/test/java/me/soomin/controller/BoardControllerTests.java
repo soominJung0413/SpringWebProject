@@ -32,7 +32,7 @@ public class BoardControllerTests {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 	}
 	
-	@Test
+//	@Test
 	public void testList() throws Exception {
 		log.info(
 				mockMvc.perform(MockMvcRequestBuilders.get("/board/list"))
@@ -42,4 +42,15 @@ public class BoardControllerTests {
 				);
 		
 	}
+	
+	@Test
+	public void testRegister() throws Exception {
+		String viewCode = mockMvc.perform(MockMvcRequestBuilders.post("/board/register")
+				.param("title", "테스트 새글 제목")
+				.param("content", "테스트 새글 내용")
+				.param("writer", "suer00")
+				).andReturn().getModelAndView().getViewName();
+		log.info("뷰코드 : "+viewCode);
+	}
+	
 }

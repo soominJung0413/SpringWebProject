@@ -23,9 +23,11 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import me.soomin.persistence.BoardMapper;
+import me.soomin.service.BoardService;
+import me.soomin.service.BoardServiceImpl;
 
 @Configuration
-@ComponentScan(basePackages= {"me.soomin.persistence","me.soomin.service"})
+@ComponentScan(basePackageClasses= {BoardServiceImpl.class,BoardMapper.class})
 @MapperScan(basePackageClasses=BoardMapper.class)
 public class RootConfig {
 	
