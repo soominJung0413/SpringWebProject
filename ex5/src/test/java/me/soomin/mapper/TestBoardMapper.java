@@ -3,6 +3,8 @@ package me.soomin.mapper;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import lombok.extern.log4j.Log4j;
 import me.soomin.domain.BoardVO;
+import me.soomin.domain.Criteria;
 import me.soomin.mappers.BoardMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,6 +25,16 @@ public class TestBoardMapper {
 
 	@Autowired
 	private BoardMapper boardMapper;
+	
+	@Test
+	public void testgetListWithPaging() {
+		
+		Criteria criteria =new Criteria();
+		
+		List<BoardVO> list = boardMapper.getListWithPaging(criteria);
+		
+		list.forEach(boardVO -> log.info(boardVO));
+	}
 
 //	@Test
 	public void testMapper() {

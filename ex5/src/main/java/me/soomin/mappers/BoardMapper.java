@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import me.soomin.domain.BoardVO;
+import me.soomin.domain.Criteria;
 
 
 public interface BoardMapper {
@@ -22,4 +23,6 @@ public interface BoardMapper {
 	public int delete(Long bno);
 	
 	public int update(BoardVO boardVO);
+	
+	public List<BoardVO> getListWithPaging(Criteria cri);
 }
