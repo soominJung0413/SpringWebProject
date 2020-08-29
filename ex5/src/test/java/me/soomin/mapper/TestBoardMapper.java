@@ -25,14 +25,16 @@ public class TestBoardMapper {
 
 	@Autowired
 	private BoardMapper boardMapper;
-	
+
 	@Test
 	public void testgetListWithPaging() {
-		
-		Criteria criteria =new Criteria();
-		
+
+		Criteria criteria = new Criteria();
+		criteria.setAmount(10);
+		criteria.setPageNum(4);
+
 		List<BoardVO> list = boardMapper.getListWithPaging(criteria);
-		
+
 		list.forEach(boardVO -> log.info(boardVO));
 	}
 
