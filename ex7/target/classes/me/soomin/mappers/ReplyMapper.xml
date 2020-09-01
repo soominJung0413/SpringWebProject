@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="me.soomin.mappers.ReplyMapper">
+  
+  <resultMap type="me.soomin.domain.ReplyVO" id="replyVo">
+  	<result column="RNO" property="rno" javaType="java.lang.Long"/>
+  	<result column="BNO" property="bno" javaType="java.lang.Long"/>
+  	<result column="REPLY" property="reply" javaType="java.lang.String"/>
+  	<result column="REPLYER" property="replyer" javaType="java.lang.String"/>
+  	<result column="REPLYDATE" property="replyDate" javaType="java.util.Date"/>
+  	<result column="UPDATEDATE" property="updateDate" javaType="java.util.Date"/>
+  </resultMap>
+  	
+  	<insert id="insert">
+  		INSERT INTO tbl_reply (rno, bno, reply, replyer ) VALUES 
+  		( seq_reply.nextval , #{bno} , #{reply} , #{replyer} )
+  	</insert>
+  	
+  	<select id="read" resultMap="replyVo">
+  		SELECT * FROM tbl_reply WHERE rno = #{rno}
+  	</select>
+  	
+  	<delete id="delete">
+  		DELETE FROM tbl_reply WHERE rno = #{rno}
+  	</delete>
+  	
+  	<update id="update" >
+  		UPDATE tbl_reply SET reply = #{reply} , updateDate = SYSDATE WHERE rno = #{rno}
+  	</update>
+  	
+  	<select id="getListWithPaging" resultMap="replyVo">
+  		SELECT rno, bno, reply, replyer, replyDate, updateDate FROM tbl_reply WHERE bno = #{bno} order by rno asc
+  	</select>
+  	
+  </mapper>
+  
