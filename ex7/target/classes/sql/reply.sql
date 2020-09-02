@@ -14,3 +14,5 @@ create sequence seq_reply;
 alter table tbl_reply add CONSTRAINT pk_reply PRIMARY KEY(rno);
 
 alter table tbl_reply add CONSTRAINT fk_reply_board FOREIGN KEY (bno) REFERENCES tbl_board (bno);
+
+create INDEX idx_reply on tbl_reply(bno desc, rno asc);
