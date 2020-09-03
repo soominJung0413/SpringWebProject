@@ -3,7 +3,6 @@ package me.soomin.mapper;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,6 +23,15 @@ public class ReplyMapperTests {
 
 	@Setter(onMethod_ = @Autowired)
 	private ReplyMapper mapper;
+
+//  @Test
+	public void testGetListWithPaging() {
+		Criteria criteria = new Criteria();
+
+		List<ReplyVO> list = mapper.getListWithPaging(criteria, 5767188L);
+
+		list.forEach(vo -> log.info(vo));
+	}
 
 //	@Test
 	public void testExists() {
@@ -73,7 +81,7 @@ public class ReplyMapperTests {
 		log.info("REsult ::::: " + result);
 	}
 
-	@Test
+//	@Test
 	public void testListWithPaging() {
 		Criteria criteria = new Criteria();
 

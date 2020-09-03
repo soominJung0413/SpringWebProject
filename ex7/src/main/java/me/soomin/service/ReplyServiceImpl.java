@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.log4j.Log4j;
 import me.soomin.domain.Criteria;
+import me.soomin.domain.ReplyPageDTO;
 import me.soomin.domain.ReplyVO;
 import me.soomin.mappers.ReplyMapper;
 
@@ -45,6 +46,12 @@ public class ReplyServiceImpl implements ReplyService {
 	public List<ReplyVO> getList(Criteria cri, Long bno) {
 		log.info("get Reply List of a Board " + bno);
 		return mapper.getListWithPaging(cri, bno);
+	}
+
+	@Override
+	public ReplyPageDTO getListPage(Criteria cri, Long bno) {
+		return new ReplyPageDTO(mapper.getCountByBno(bno), mapper.getListWithPaging(cri, bno));
+		// 생성자로 db에서 추출한 리스트와 카운트 수를 모두 넘겨주었다.
 	}
 
 }

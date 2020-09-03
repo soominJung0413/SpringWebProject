@@ -13,6 +13,26 @@
   	<result column="REPLYDATE" property="replyDate" javaType="java.util.Date"/>
   	<result column="UPDATEDATE" property="updateDate" javaType="java.util.Date"/>
   </resultMap>
+  
+  <select id="getListWithPaging" resultMap="replyVo">
+  <![CDATA[
+  	SELECT RNO , BNO, REPLY, REPLYER, REPLYDATE, UPDATEDATE 
+  	FROM (
+  		SELECT /*+ INDEX(TBL_REPLY INDX_REPLY) */ ROWNUM RN , RNO, BNO, REPLY, REPLYER, REPLYDATE, UPDATEDATE
+  		FROM TBL_REPLY 
+  		WHERE BNO =#{bno} AND
+  			RNO > 0
+  			AND ROWNUM <= #{cri.amount} * #{cri.pageNum}
+  	)
+  		WHERE rn > #{cri.amount} * (#{cri.pageNum} -1)
+  	]]>
+  </select>
+  
+  <select id="getCountByBno" resultType="java.lang.Integer">
+  	<![CDATA[
+  	SELECT count(rno) FROM tbl_reply WHERE bno = #{bno}
+  	]]>
+  </select>
   	
   	<insert id="insert">
   		INSERT INTO tbl_reply (rno, bno, reply, replyer ) VALUES 
@@ -30,10 +50,6 @@
   	<update id="update" >
   		UPDATE tbl_reply SET reply = #{reply} , updateDate = SYSDATE WHERE rno = #{rno}
   	</update>
-  	
-  	<select id="getListWithPaging" resultMap="replyVo">
-  		SELECT rno, bno, reply, replyer, replyDate, updateDate FROM tbl_reply WHERE bno = #{bno} order by rno asc
-  	</select>
   	
   </mapper>
   

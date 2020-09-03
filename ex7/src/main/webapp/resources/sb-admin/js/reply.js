@@ -30,7 +30,7 @@
 		$.getJSON("/replies/pages/"+bno+"/"+page+".json",
 		function(data){
 			if(callback){
-				callback(data);
+				callback(data.replyCnt,data.list);
 			}
 			
 		}).fail(function(xhr, status, err){
