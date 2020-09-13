@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="me.soomin.mappers.ReplyMapper">
+  
+  <resultMap type="me.soomin.domain.ReplyVO" id="replyVo">
+  	<result column="RNO" property="rno" javaType="java.lang.Long"/>
+  	<result column="BNO" property="bno" javaType="java.lang.Long"/>
+  	<result column="REPLY" property="reply" javaType="java.lang.String"/>
+  	<result column="REPLYER" property="replyer" javaType="java.lang.String"/>
+  	<result column="REPLYDATE" property="replyDate" javaType="java.util.Date"/>
+  	<result column="UPDATEDATE" property="updateDate" javaType="java.util.Date"/>
+  </resultMap>
+  
+  <select id="getListWithPaging" resultMap="replyVo">
+  <![CDATA[
+  	SELECT RNO , BNO, REPLY, REPLYER, REPLYDATE, UPDATEDATE 
+  	FROM (
+  		SELECT /*+ INDEX(TBL_REPLY INDX_REPLY) */ ROWNUM RN , RNO, BNO, REPLY, REPLYER, REPLYDATE, UPDATEDATE
+  		FROM TBL_REPLY 
+  		WHERE BNO =#{bno} AND
+  			RNO > 0
+  			AND ROWNUM <= #{cri.amount} * #{cri.pageNum}
+  	)
+  		WHERE rn > #{cri.amount} * (#{cri.pageNum} -1)
+  	]]>
+  </select>
+  
+  <select id="getCountByBno" resultType="java.lang.Integer">
+  	<![CDATA[
+  	SELECT count(rno) FROM tbl_reply WHERE bno = #{bno}
+  	]]>
+  </select>
+  	
+  	<insert id="insert">
+  		INSERT INTO tbl_reply (rno, bno, reply, replyer ) VALUES 
+  		( seq_reply.nextval , #{bno} , #{reply} , #{replyer} )
+  	</insert>
+  	
+  	<select id="read" resultMap="replyVo">
+  		SELECT * FROM tbl_reply WHERE rno = #{rno}
+  	</select>
+  	
+  	<delete id="delete">
+  		DELETE FROM tbl_reply WHERE rno = #{rno}
+  	</delete>
+  	
+  	<update id="update" >
+  		UPDATE tbl_reply SET reply = #{reply} , updateDate = SYSDATE WHERE rno = #{rno}
+  	</update>
+  	
+
+  	
+  </mapper>
+  
